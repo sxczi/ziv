@@ -1,2 +1,3 @@
-mutable name = "Lara abu baker"
-output "#name"
+mutable name = input "whats your name?"
+immutable lol = 12
+output "hello, #name! #lol"
