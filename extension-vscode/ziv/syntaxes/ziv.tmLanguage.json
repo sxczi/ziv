@@ -1,0 +1,108 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Ziv Programming Language",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "name": "variable.name.ziv",
+      "match": "[a-z]"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "begin": "#",
+          "end": "\n",
+          "name": "comment.line.ziv"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.ziv",
+          "match": "\\b(if|eif|else|eelse|elif|eelif|while|ewhile|for|efor|return)\\b"
+        },
+        {
+          "name": "keyword.ziv",
+          "match": "\\b(fn|efn|use|immutable|mutable)\\b"
+        },
+        {
+          "name": "constant.language.boolean.true.ziv",
+          "match": "true"
+        },
+        {
+          "name": "constant.language.boolean.false.ziv",
+          "match": "false"
+        },
+        {
+          "name": "constant.language.ziv",
+          "match": "null"
+        },
+        {
+					"name": "keyword.operator.assignment.compound.ziv",
+					"match": "\\*=|(?<!\\()/=|%=|\\+=|\\-="
+				},{
+					"name": "keyword.operator.comparison.ziv",
+					"match": "==|!="
+				},{
+					"name": "keyword.operator.logical.ziv",
+					"match": "\\!|&&|\\|\\||\\?\\?"
+				},
+				{
+					"name": "keyword.operator.assignment.ziv",
+					"match": "\\="
+				},
+				{
+					"name": "keyword.operator.decrement.ziv",
+					"match": "--"
+				},
+				{
+					"name": "keyword.operator.increment.ziv",
+					"match": "\\+\\+"
+				},
+				{
+					"name": "keyword.operator.arithmetic.ziv",
+					"match": "%|\\*|/|-|\\+"
+				},
+        {
+          "name": "support.function.ziv",
+          "match": "\\b(output|input)\\b"
+        }
+      ]
+    },
+    "numbers": {
+			"patterns": [{
+				"name": "keyword.other.unit.suffix.integer.ziv",
+				"match": "[0-9999999999999]"
+			}]
+		},
+    "strings": {
+      "name": "string.quoted.double.ziv",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.ziv",
+          "match": "\\\\."
+        }
+      ]
+    }
+  },
+  "scopeName": "source.ziv"
+}
