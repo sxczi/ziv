@@ -51,6 +51,7 @@ const callstack = new Stack();
 
 if (fs.existsSync(`${args[0]}.ziv`)) {
   parse(fs.readFileSync(`./${args[0]}.ziv`, "utf-8").split("\n"));
+  // console.log(callstack.items);
 } else {
   console.log(
     chalk.bgRed(
@@ -60,21 +61,26 @@ if (fs.existsSync(`${args[0]}.ziv`)) {
 }
 
 function parse(code) {
-  for (let i = 0; i < code.length - 1; i++) {
+  for (let i = 0; i < code.length; i++) {
     let line = code[i];
     if (!line.startsWith("#")) {
-      const currentLine = line.split(" ");
-      for (let j = 0; j < currentLine.length - 1; j++) {
+      const currentLine = line.trim().replace(/\s+/g, " ").split(" ");
+
+      for (let j = 0; j < currentLine.length; j++) {
         let word = currentLine[j];
 
         if (word === "mutable" || word === "immutable") {
-          let val = line.split(" ").slice(3).join(" ");
+          let val = line.replace(/\s+/g, " ").split(" ").slice(3).join(" ");
 
           const evaluate = (str) => {
             if (/^[0-9()+\-*.\/]*$/.test(str)) {
               return eval(str);
             } else {
-              let string = line.split(" ").slice(3).join(" ");
+              let string = line
+                .replace(/\s+/g, " ") // removes extra whitespace between words
+                .split(" ")
+                .slice(3)
+                .join(" ");
               if (string.split(" ")[0] === "input") {
                 return `"${inp(eval(string.split(" ").slice(1).join(" ")))}"`;
               } else return str;
@@ -94,20 +100,22 @@ function parse(code) {
           console.log(
             eval(
               line
+                .replace(/\s+/g, " ")
                 .split(" ")
                 .slice(1)
                 .join(" ")
-                .replace(/(?<!\w)#\w+/g, (x) => {
+                .replace(/(?<!\w)@\w+/g, (x) => {
+                  // for words that start with @
                   const variable = callstack.items.filter((item) => {
                     if (
                       item.type === "variable" &&
-                      item.identifier === x.split("#")[1]
+                      item.identifier === x.split("@")[1]
                     ) {
                       return item.value;
                     }
                   });
                   // console.log(eval(variable[0].value))
-                  return eval(variable[0].value);
+                  return eval(variable[0]?.value || null);
                 })
             )
           );

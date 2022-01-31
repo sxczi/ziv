@@ -1,3 +1,7 @@
-mutable name = input "whats your name?"
-immutable lol = 12
-output "hello, #name! #lol"
+use "trans.ziv"
+
+immutable hi = true
+mutable       name = "lara"
+# mutable lol = input "enter yo age biatdh?? "
+output "@hi, @name"
+output "@lol"
