@@ -1,9 +1,5 @@
 use "trans.ziv"
 
-immutable hi = true
-mutable       name = "lara"
-# mutable lol = input "enter yo age biatdh?? "
-output "@hi, @name"
-hi = false
-name = "allah"
-output "@hi, @name"
+immutable name = input "What's your name?"
+
+output "hello, @name!"

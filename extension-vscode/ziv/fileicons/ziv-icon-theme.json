@@ -1,7 +1,13 @@
 {
-  "iconDefinitions": {
-    "_folder_dark": {
-      "iconPath": "./ziv.svg"
+  
+    "iconDefinitions": {
+      "_file_ziv": {
+        "iconPath": "./ziv.svg"
+      }
+    },
+    "file": "_vscode_folder",
+    "folder": "_vscode_folder",
+    "fileExtensions": {
+      "ziv": "_file_ziv"
     }
-  },
 }

@@ -15,6 +15,14 @@
         "Programming Languages"
     ],
     "contributes": {
+        "iconThemes": [
+			{
+				"id": "ziv-icons",
+				"label": "Ziv Icons",
+				"path": "./fileicons/ziv-icon-theme.json",
+				"_watch": true
+			}
+		],
         "languages": [{
             "id": "ziv",
             "aliases": ["Ziv Programming Language", "ziv"],
