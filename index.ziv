@@ -4,4 +4,6 @@ immutable hi = true
 mutable       name = "lara"
 # mutable lol = input "enter yo age biatdh?? "
 output "@hi, @name"
-output "@lol"
+hi = false
+name = "allah"
+output "@hi, @name"

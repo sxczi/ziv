@@ -1,6 +1,6 @@
 {
     "name": "ziv",
-    "icon": "https://raw.githubusercontent.com/ghost-language/vscode/nightly/icon.png",
+    "icon": "./ziv.png",
     "displayName": "Ziv",
     "description": "Ziv Programming Language",
     "version": "0.0.1",
@@ -19,11 +19,7 @@
             "id": "ziv",
             "aliases": ["Ziv Programming Language", "ziv"],
             "extensions": [".ziv"],
-            "configuration": "./language-configuration.json",
-            "icons": {
-                "light": "ziv.png",
-                "dark": "ziv.png"
-            }
+            "configuration": "./language-configuration.json"
         }],
         "grammars": [{
             "language": "ziv",
