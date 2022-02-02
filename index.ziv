@@ -1,5 +1,6 @@
 use "trans.ziv"
 
-immutable name = input "What's your name?"
+mutable age = 15
+age /= 3
 
-output "hello, @name!"
+output "@age"

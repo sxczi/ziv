@@ -1,13 +1,13 @@
 #! /usr/bin/env node
 
-import fs from "fs";
+import fs, { copyFileSync } from "fs";
 import path from "path";
 import chalk from "chalk";
 import prompt from "prompt-sync";
 
 const inp = prompt();
 const args = process.argv.slice(2);
-const supportFunctions = ["output", "input"];
+const operators = ["=", "+=", "-=", "*=", "/=", "%="];
 const datatypes = [
   {
     value: "null",
@@ -95,7 +95,7 @@ function parse(code) {
               }
             };
 
-            val = evaluate(val);
+            val = eval(evaluate(val));
 
             callstack.push({
               type: "variable",
@@ -131,13 +131,29 @@ function parse(code) {
               )
             );
             break;
-          } else if (callstack.items.some((item) => item.identifier === word)) {
+          } else if (
+            callstack.items.some((item) => item.identifier === word) &&
+            operators.includes(currentLine[1])
+          ) {
             let val = line.replace(/\s+/g, " ").split(" ").slice(2).join(" ");
+            val = eval(val);
 
             callstack.items.filter((item) => {
               if (item.identifier === word) {
                 if (item.kind === "mutable") {
-                  item.value = val;
+                  if (currentLine[1] === "=") {
+                    item.value = val;
+                  } else if (currentLine[1] === "+=") {
+                    item.value += val;
+                  } else if (currentLine[1] === "-=") {
+                    item.value -= val;
+                  } else if (currentLine[1] === "*=") {
+                    item.value *= val;
+                  } else if (currentLine[1] === "/=") {
+                    item.value /= val;
+                  } else if (currentLine[1] === "%=") {
+                    item.value %= val;
+                  }
                 } else {
                   throw `Error: ${path.resolve(
                     args[0] + ".ziv"
