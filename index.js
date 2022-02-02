@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import fs, { copyFileSync } from "fs";
+import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import prompt from "prompt-sync";
