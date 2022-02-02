@@ -78,7 +78,24 @@ function parse(code) {
           let word = currentLine[j];
 
           if (word === "mutable" || word === "immutable") {
-            let val = line.replace(/\s+/g, " ").split(" ").slice(3).join(" ");
+            let val = line
+              .replace(/\s+/g, " ")
+              .split(" ")
+              .slice(3)
+              .join(" ")
+              .replace(/(?<!\w)@\w+/g, (x) => {
+                // for words that start with @
+                const variable = callstack.items.filter((item) => {
+                  if (
+                    item.type === "variable" &&
+                    item.identifier === x.split("@")[1]
+                  ) {
+                    return item.value;
+                  }
+                });
+                // console.log(eval(variable[0].value))
+                return eval(variable[0]?.value || null);
+              });
 
             const evaluate = (str) => {
               if (/^[0-9()+\-*.\/]*$/.test(str)) {
@@ -95,7 +112,7 @@ function parse(code) {
               }
             };
 
-            val = eval(evaluate(val));
+            val = evaluate(val);
 
             callstack.push({
               type: "variable",
@@ -136,7 +153,6 @@ function parse(code) {
             operators.includes(currentLine[1])
           ) {
             let val = line.replace(/\s+/g, " ").split(" ").slice(2).join(" ");
-            val = eval(val);
 
             callstack.items.filter((item) => {
               if (item.identifier === word) {
@@ -144,15 +160,22 @@ function parse(code) {
                   if (currentLine[1] === "=") {
                     item.value = val;
                   } else if (currentLine[1] === "+=") {
-                    item.value += val;
+                    if (item.implicitType.value === "str") {
+                      item.value = `"${eval(item.value) + eval(val)}"`;
+                    } else if (
+                      item.implicitType.value === "int" ||
+                      item.implicitType.value === "float"
+                    ) {
+                      item.value += Number.parseInt(val);
+                    }
                   } else if (currentLine[1] === "-=") {
-                    item.value -= val;
+                    item.value -= Number.parseInt(val);
                   } else if (currentLine[1] === "*=") {
-                    item.value *= val;
+                    item.value *= Number.parseInt(val);
                   } else if (currentLine[1] === "/=") {
-                    item.value /= val;
+                    item.value /= Number.parseInt(val);
                   } else if (currentLine[1] === "%=") {
-                    item.value %= val;
+                    item.value %= Number.parseInt(val);
                   }
                 } else {
                   throw `Error: ${path.resolve(

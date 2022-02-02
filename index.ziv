@@ -1,6 +1,17 @@
 use "trans.ziv"
 
-mutable age = 15
-age /= 3
+immutable username = "larabaker065"
+mutable password = "lol23423"
+mutable token = "@username-@password"
 
-output "@age"
+output "@token"
+
+# testing data types
+
+mutable age = 15
+age += 2
+
+mutable name = "lara"
+name += "sa"
+
+output "@age, @name"
