@@ -97,20 +97,47 @@ function parse(code) {
                 return eval(variable[0]?.value || null);
               });
 
-            const evaluate = (str) => {
-              if (/^[0-9()+\-*.\/]*$/.test(str)) {
-                return eval(str);
-              } else {
-                let string = line
-                  .replace(/\s+/g, " ") // removes extra whitespace between words
-                  .split(" ")
-                  .slice(3)
-                  .join(" ");
-                if (string.split(" ")[0] === "input") {
-                  return `"${inp(eval(string.split(" ").slice(1).join(" ")))}"`;
-                } else return str;
-              }
-            };
+              const evaluate = (str) => {
+                if (/^[0-9()+\-*.\/]*$/.test(str)) {
+                  return eval(str);
+                } else {
+                  let string = line
+                    .replace(/\s+/g, " ") // removes extra whitespace between words
+                    .split(" ")
+                    .slice(3)
+                    .join(" ");
+                  if (string.split(" ")[0] === "input") {
+                    return `"${inp(eval(string.split(" ").slice(1).join(" ")))}"`;
+                  } else {
+                    const ress = [];
+                    currentLine.slice(3).forEach((word) => {
+                      if (
+                        callstack.items.some((item) => item.identifier === word)
+                      ) {
+                        ress.push(true);
+                      }
+                    });
+    
+                    if (ress.every((i) => i)) {
+                      let res = "";
+                      currentLine.slice(3).forEach((word) => {
+                        if (
+                          callstack.items.some((item) => item.identifier === word)
+                        ) {
+                          res += callstack.items.filter(
+                            (item) => item.identifier === word
+                          )[0].value;
+                        } else {
+                          res += word;
+                        }
+                      });
+                      return res;
+                    } else {
+                      return str;
+                    }
+                  }
+                }
+              };
 
             val = evaluate(val);
 

@@ -1,17 +1,9 @@
 use "trans.ziv"
 
-immutable username = "larabaker065"
-mutable password = "lol23423"
-mutable token = "@username-@password"
+mutable math = 99
+mutable english = 100
+mutable biology = 97
 
-output "@token"
+mutable average = ( math + english + biology ) / 3
 
-# testing data types
-
-mutable age = 15
-age += 2
-
-mutable name = "lara"
-name += "sa"
-
-output "@age, @name"
+output "@average"
